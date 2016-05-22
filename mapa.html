@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+  <link rel="stylesheet" type="text/css" href="mypath.css" />
+
+  <script type="text/javascript" src="jquery-2.2.0.min.js" ></script>
+
+  <script type="text/javascript" src="interact.min.js" ></script>
+<!--
+  <script type="text/javascript" src="cordova.js" ></script>
+/-->
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script type="text/javascript" src="gmaps.js"></script>
+
+  <script type="text/javascript" src="zepto.min.js"></script>
+
+  <script type="text/javascript">
+    var map, lat, lng;
+
+    $(function(){
+
+      function geolocalizar(){
+        GMaps.geolocate({
+          success: function(position){
+            lat = position.coords.latitude;  // guarda coords en lat y lng
+            lng = position.coords.longitude;
+
+            map = new GMaps({  // muestra mapa centrado en coords [lat, lng]
+              el: '#map',
+              lat: lat,
+              lng: lng,
+              panControl : true,
+        	streetViewControl : true,
+        	mapTypeControl : true
+            });
+            map.addMarkers({ lat: lat, lng: lng, color: 'blue',title: 'Estás aquí'});  // marcador en [lat, lng]
+          },
+          error: function(error) { alert('Error: '+error.message); },
+          not_supported: function(){ alert("No soporta geolocalización"); },
+        });
+      };
+
+      geolocalizar();
+    });
+  </script>
+</head>
+<body>
+<center>
+  <b>Geolocalizate</b> <a href="index.html">Inicio</a> <a href="location.html">Coordenadas de localizacion</a>
+</center>
+  <div id="map"></div>
+</body>
+</html>
